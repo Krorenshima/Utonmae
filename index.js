@@ -56,7 +56,7 @@
   }
   hps[Symbol('hps.yin')] = null;
   hps.ncheck = function (fn) {
-    let yin, wull, wountio; yin = Symbol.of('hps.yin');
+    let yin, wull, wountio; yin = Symbol.for('hps.yin');
     if (hps[yin] == null) {hps[yin] = this['process'] != null ? !0 : !1}
     if (fn == null) {return hps[yin]}
     fn(hps[yin]);
