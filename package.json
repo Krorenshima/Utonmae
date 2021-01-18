@@ -7,6 +7,6 @@
     "test": "node test.js"
   },
   "keywords": ["utonmae"],
-  "author": "Krorenshima",
+  "author": "krorenshima",
   "license": "MIT"
 }
