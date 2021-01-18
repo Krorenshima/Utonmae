@@ -1,12 +1,12 @@
 {
   "name": "utonmae",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "Helper fun's :P",
   "main": "index.js",
   "scripts": {
     "test": "node test.js"
   },
-  "keywords": ["utonmae"],
+  "keywords": ["utonmae", "helpers", "QoL"],
   "author": "Krorenshima",
   "repository": {
     "type": "git",
