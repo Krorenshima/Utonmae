@@ -7,6 +7,14 @@
     "test": "node test.js"
   },
   "keywords": ["utonmae"],
-  "author": "krorenshima",
+  "author": "Krorenshima",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Krorenshima/Utonmae.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Krorenshima/Utonmae/issues"
+  },
+  "homepage": "https://github.com/Krorenshima/Utonmae#readme",
   "license": "MIT"
 }
