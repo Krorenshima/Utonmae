@@ -1,0 +1,12 @@
+{
+  "name": "utonmae",
+  "version": "1.0.0",
+  "description": "Helper fun's :P",
+  "main": "index.js",
+  "scripts": {
+    "test": "node test.js"
+  },
+  "keywords": ["utonmae"],
+  "author": "",
+  "license": "MIT"
+}
