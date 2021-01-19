@@ -74,12 +74,25 @@
     });
     return this
   }
+  hps.types = new Map();
+  hps.iType = function (cl) {
+    let obj; obj = {};
+    // if ((cl['destructor'] != null) && hps.type(cl.destructor, 'function')) {obj.destructor = cl.destructor} else {obj.destructor = destruct}
+    obj.name = cl.name.toLowerCase();
+    obj.destructor = function (it) {
+      return {yup: obj.name}
+    }
+    obj.ignored = !0;
+    hps.types.set(obj.name, obj);
+    return hps;
+  }
   hps.nType = function (cl, revive, destruct) {
     if (!hps.type(cl, 'function')) {throw TypeError('First argument must be the constructor')}
     let obj; obj = {};
     if ((cl['reviver'] != null) && hps.type(cl.reviver, 'function')) {obj.reviver = cl.reviver} else {obj.reviver = revive}
     if ((cl['destructor'] != null) && hps.type(cl.destructor, 'function')) {obj.destructor = cl.destructor} else {obj.destructor = destruct}
     obj.name = cl.name.toLowerCase();
+    obj.ignored = !1;
     hps.types.set(obj.name, obj);
     return hps;
   }
@@ -98,6 +111,7 @@
         default:
           if (!hps.types.has(v.yup)) {throw TypeError(`${v.yup} has not been defined.`)}
           let ty; ty = hps.types.get(v.yup);
+          if (ty.ignored) {return}
           v = ty.reviver(v);
           if (v == null) {throw ReferenceError("Must return the child of the class.")}
       }
@@ -132,6 +146,7 @@
         if (!hps.types.has(typ)) {throw Error("No known type: " + typ)}
         let ty, data;
         ty = hps.types.get(typ);
+        if (ty.ignored) {return}
         data = ty.destructor(v);
         if (data == null) {throw ReferenceError("Destructor must return a data object depicting the custom class.")}
         if (data['yup'] == null) {throw ReferenceError("Data must have a 'yup' key.")}
