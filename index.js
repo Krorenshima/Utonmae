@@ -57,7 +57,7 @@
   hps[Symbol('hps.yin')] = null;
   hps.ncheck = function (fn) {
     let yin, wull, wountio; yin = Symbol.for('hps.yin');
-    if (hps[yin] == null) {hps[yin] = this['process'] != null ? !0 : !1}
+    if (hps[yin] == null) {hps[yin] = this['window'] != null ? !1 : !0}
     if (fn == null) {return hps[yin]}
     fn(hps[yin]);
     return hps;
@@ -70,7 +70,7 @@
         names.forEach(name => {exports[name] = obj});
         return
       }
-      names.forEach(name => {window[name] = obj});
+      names.forEach(name => {this['window'][name] = obj});
     });
     return this
   }
