@@ -54,15 +54,15 @@
     });
     return mf;
   }
-  hps[Symbol('hps.yin')] = null;
+  hps.yin = this['window'] != null ? !1 : !0;
   hps.ncheck = function (fn) {
-    let yin, wull, wountio; yin = Symbol.for('hps.yin');
-    if (hps[yin] == null) {hps[yin] = this['window'] != null ? !1 : !0}
-    if (fn == null) {return hps[yin]}
-    fn(hps[yin]);
+    if (fn == null) {return hps.yin}
+    fn(hps.yin);
     return hps;
   }
-  hps.ncheck((yin) => {if (yin) {fs = require('fs'); return}});
+  hps.ncheck((yin) => {
+    if (yin) {fs = require('fs'); return}
+  });
   hps.mkdown = function (obj, ...names) {
     hps.ncheck((yin) => {
       if (yin) {
@@ -70,14 +70,13 @@
         names.forEach(name => {exports[name] = obj});
         return
       }
-      names.forEach(name => {this['window'][name] = obj});
+      names.forEach(name => {window[name] = obj});
     });
     return this
   }
   hps.types = new Map();
   hps.iType = function (cl) {
     let obj; obj = {};
-    // if ((cl['destructor'] != null) && hps.type(cl.destructor, 'function')) {obj.destructor = cl.destructor} else {obj.destructor = destruct}
     obj.name = cl.name.toLowerCase();
     obj.destructor = function (it) {
       return {yup: obj.name}
@@ -97,6 +96,8 @@
     return hps;
   }
   hps.reviver = function (k, v) {
+    if (v == null) {return}
+    if (v['constructor'] != null) {return v}
     if ((hps.type(v, 'object')) && v['yup'] != null) {
       switch (v.yup) {
         case 'map':
@@ -119,6 +120,7 @@
     return v;
   }
   hps.destructor = function (k, v) {
+    if (v == null) {return}
     if (!hps.ncheck() && (v instanceof Element || v instanceof p)) {
       console.log('yos');
       return}
@@ -168,7 +170,15 @@
   hps.mns = function (item, cb) {
     if (hps.ncheck()) {throw Error("This function is only ment for browsers.")}
     let e = localStorage[item] != null;
-    cb(e, item);
+    cb(e, item, {
+      define (at) {
+        if (at == null) {throw Error("Argument cannot be null")}
+        localStorage[item] = hps.parse(at);
+        this.dat = localStorage[item];
+        return this
+      },
+      dat: localStorage[item]
+    });
     return this;
   }
   hps.mkdown(hps, 'helpers', 'hps');
