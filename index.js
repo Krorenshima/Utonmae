@@ -169,12 +169,19 @@
   }
   hps.mns = function (item, cb) {
     if (hps.ncheck()) {throw Error("This function is only ment for browsers.")}
-    let e = localStorage[item] != null;
-    cb(e, item, {
+    if (cb == null) {return localStorage[item]}
+    if (!hps.type(cb, 'function')) {localStorage[item] = hps.stringify(cb); return localStorage[item]}
+    cb((localStorage[item] != null), item, {
       define (at) {
         if (at == null) {throw Error("Argument cannot be null")}
         localStorage[item] = hps.parse(at);
         this.dat = localStorage[item];
+        return this
+      },
+      delete () {
+        if (localStorage[item] == null) {console.warn(`${item} was already deleted`); return}
+        delete localStorage[item];
+        this.dat = null;
         return this
       },
       dat: localStorage[item]
