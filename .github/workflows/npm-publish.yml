@@ -7,6 +7,9 @@ on:
   push:
     branches:
       - master
+    paths-ignore:
+      - 'package.json'
+      - 'CHANGELOG.md'
   # release:
   #   types: [created]
 
@@ -20,6 +23,13 @@ jobs:
           node-version: 15
       - run: npm ci
       - run: npm test
+      - uses: https://github.com/TriPSs/conventional-changelog-action@master
+        with:
+          github-token: ${{secrets.GTOKTION}}
+          git-message: 'chore(release): {version}'
+          output-file: 'CHANGELOG.md'
+
+
 
   publish-npm:
     needs: build
@@ -27,24 +37,10 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v1
-        with:
-          node-version: 15
-          registry-url: https://registry.npmjs.org/
+          with:
+            node-version: 15
+            registry-url: https://registry.npmjs.org/
       - run: npm ci
       - run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{secrets.npm_token}}
-
-  publish-gpr:
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
-        with:
-          node-version: 15
-          registry-url: https://npm.pkg.github.com/
-      - run: npm ci
-      - run: npm publish
-        env:
-          NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
