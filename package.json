@@ -6,7 +6,11 @@
   "scripts": {
     "test": "node test.js"
   },
-  "keywords": ["utonmae", "helpers", "QoL"],
+  "keywords": [
+    "utonmae",
+    "helpers",
+    "QoL"
+  ],
   "author": "Krorenshima",
   "repository": {
     "type": "git",
