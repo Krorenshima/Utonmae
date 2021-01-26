@@ -67,7 +67,7 @@
     hps.ncheck((yin) => {
       if (yin) {
         if (((names == null) || !hps.type(names, 'array')) || names.length < 1) {module.exports = obj; return}
-        names.forEach(name => {exports[name] = obj});
+        module.exports = obj;
         return
       }
       names.forEach(name => {window[name] = obj});
