@@ -23,7 +23,7 @@ jobs:
           node-version: 15
       - run: npm ci
       - run: npm test
-      - uses: https://github.com/TriPSs/conventional-changelog-action@master
+      - uses: TriPSs/conventional-changelog-action@master
         with:
           github-token: ${{secrets.GTOKTION}}
           git-message: 'chore(release): {version}'
