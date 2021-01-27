@@ -10,9 +10,85 @@
     }
   }
   let hps, fs; hps = {};
+  hps.yin = this['window'] != null ? !1 : !0;
+  hps.ncheck = function (fn) {
+    if (fn == null) {return hps.yin}
+    fn(hps.yin);
+    return hps;
+  }
+  hps.ncheck((yin) => {
+    if (yin) {fs = require('fs'); return}
+  });
+  // hps.zypes = null
+  if (fs != null) {
+    // TODO: make the types library able to be accessed from a top directory as to not make multiple instances.
+    let zypes; zypes = './zypes.json';
+    if (!fs.existsSync(zypes)) {fs.writeFileSync(zypes, '{}', 'utf8')}
+    hps.zypes = JSON.parse(fs.readFileSync(zypes));
+  } else {
+    hps.zypes = {};
+  }
   hps.type = function (it, is) {
-    let ty = Object.prototype.toString.call(it).toLowerCase();
-    return is != null ? (ty.includes(is.toLowerCase())) : (ty.replace(/[\[\]]/g, '').split(' ').pop());
+    let ty, vow;
+    ty = Object.prototype.toString.call(it).toLowerCase();
+    if (hps.zypes[ty] == null) {
+      vow = ty.replace(/[\[\]]/g, '').split(' ').pop().toLowerCase();
+      hps.zypes[ty] = vow;
+    }
+    vow = hps.zypes[ty];
+    if (fs != null) {fs.writeFile('./zypes.json', JSON.stringify(hps.zypes), 'utf8', (er) => {if (er) {throw er}})}
+    return is != null ? (vow === is) : vow;
+  }
+  hps.requirs = new Map([
+    ['fs', {enabled: !1, fns: new Map()}]
+  ]);
+  hps.checkToast = (maxlevel, type) => {
+    let fn;
+    fn = (v, argloc, level) => {
+      if (level > maxlevel) {level = maxlevel}
+      if (level >= 1) {if (v == null) {throw ReferenceError(`Arg ${argloc} cannot be null.`)}}
+      if (level >= 2) {
+        let t;
+        if ((t=hps.type(v),t!==type)) {throw TypeError(`Arg ${argloc} must be a ${type}, got: ${t}`)}}
+      if (level === 3) {if (hps.empty(v)) {throw Error(`Arg ${argloc} cannot be empty.`)}}
+      return hps.check;
+    }
+    return fn
+  }
+  hps.check = {
+    str: hps.checkToast(3, 'string'),
+    fn: hps.checkToast(2, 'function'),
+  }
+  hps.nquire = function (name, mod, fn) {
+    hps.check.str(name, 1, 3).str(mod, 2, 3).fn(fn, 3, 2);
+    if (!hps.requirs.has(mod)) {
+      hps.requirs.set(mod, {
+        enabled: !1,
+        fns: new Map()
+      });
+    }
+    let med;
+    med = hps.requirs.get(mod);
+    mod.fns.set(name, fn);
+    if (mod.enabled === !0) {hps.establish(mod, name)}
+    return hps
+  }
+  hps.establish = function (mod, name) {
+    if (!hps.requirs.has(mod)) {throw ReferenceError(`No known module ${mod}`)}
+    mod = hps.requirs.get(mod);
+    mod.enabled = !0;
+    if (name != null) {
+      if (!mod.fns.has(name)) {throw ReferenceError(`No known function ${name}`)}
+      hps[name] = mod.fns.get(name); return this
+    }
+    mod.fns.forEach((v, k) => {hps[k] = v});
+    return this
+  }
+  hps.destroy = function (mod) {
+    if (!hps.requirs.has(mod)) {throw ReferenceError(`No known module ${mod}`)}
+    mod = hps.requirs.get(mod);
+    mod.fns.forEach((v, k) => {delete hps[k]});
+    return this
   }
   hps.empty = function (arg) {
     let it;
@@ -54,15 +130,6 @@
     });
     return mf;
   }
-  hps.yin = this['window'] != null ? !1 : !0;
-  hps.ncheck = function (fn) {
-    if (fn == null) {return hps.yin}
-    fn(hps.yin);
-    return hps;
-  }
-  hps.ncheck((yin) => {
-    if (yin) {fs = require('fs'); return}
-  });
   hps.mkdown = function (obj, ...names) {
     hps.ncheck((yin) => {
       if (yin) {

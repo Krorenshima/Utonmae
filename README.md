@@ -2,6 +2,10 @@
 Just implements a few helper functions to help get around both browser and node api's
 no support for deno.js ~~mainly because I don't know how~~
 
+# This package is not intended to run on, **ungah bungah** (older) versions of browsers and or versions of nodejs and will never support older versions that do not support anything in or beyond ES6.
+
+install: `npm i utonmae`
+
 ### **Legend**:
 + ***<hps|helpers>*** - `hps || helpers`
 
@@ -126,3 +130,36 @@ hps.mns('moocow', (exists, item, helperNodeShard) => {
   someGlobalVariable = helperNodeShard.dat
 })
 ```
+
+---
+# Contributing
+
+This package does not require python or anything like that
+so its pretty easy to contribute stuff
+# ***H - O - W - E - V - E - R***
+
+not all "helper" functions are actually, "helpful"
+so.
+
+### ***it must have a more general use case or use case for optional packages like:***
+- express
+- fs
+- readline
+- socket.io
+
+to name a few.
+
+otherwise?
+# ***IT'S USELESS.***
+---
+# Style Rules
+- **DO NOT**
+  - use 'use-strict'.
+  - overly use 'const'.
+  - overly use 'var'.
+  - (joke) use typescript, aka, the "more-work" language ;P
+  - Leave comments in your code unless its `TODO` or `NOTE`
+- **DO**
+  - use 'let'.
+  - find the most **optimal**, **fast** and **efficient** way of writing code, that runs **fast** and **efficient**
+  - Make sure its **easy** for other programmers, including myself.
