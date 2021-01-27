@@ -21,14 +21,20 @@ jobs:
           node-version: 15
       - run: npm ci
       - run: npm test
-      - uses: TriPSs/conventional-changelog-action@v3
-        with:
-          github-token: ${{secrets.GTOKTION}}
-          git-message: 'chore(release): {version}'
-          output-file: 'CHANGELOG.md'
-      - uses: stefanzweifel/git-auto-commit-action@v4
-        with:
-          commit_message: 'auto bwep'
+      - run: |
+        git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
+        git config --local user.name "github-actions[bot]"
+        node bump-v.js
+        git commit -m 'auto bwep' -a
+        git push https://github.com/Krorenshima/Utonmae.git
+      # - uses: TriPSs/conventional-changelog-action@v3
+      #   with:
+      #     github-token: ${{secrets.GTOKTION}}
+      #     git-message: 'chore(release): {version}'
+      #     output-file: 'CHANGELOG.md'
+      # - uses: stefanzweifel/git-auto-commit-action@v4
+      #   with:
+      #     commit_message: 'auto bwep'
 
 
 
