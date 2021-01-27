@@ -19,37 +19,26 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: 15
+
       - run: npm ci
       - run: npm test
 
-  bump:
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
-        with:
-          node-version: 15
       - name: Bump version
       - uses: TriPSs/conventional-changelog-action@v3
         with:
           github-token: ${{secrets.GTOKTION}}
           git-message: 'chore(release): {version}'
           output-file: 'CHANGELOG.md'
+
       - name: Commit files
-        run: |
-          git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git config --local user.name "github-actions[bot]"
-          git commit -m "Add version and changelog." -a
-      - name: Push changes
-        uses: ad-m/github-push-action@master
+      - uses: stefanzweifel/git-auto-commit-action@v4
         with:
-          github_token: ${{secrets.GTOKTION}}
-          branch: master
+          commit_message: 'auto bwep'
+
 
 
   publish-npm:
-    needs: bump
+    needs: build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
