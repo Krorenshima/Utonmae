@@ -15,24 +15,17 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
         uses: actions/checkout@v2
-
-      - name: Setup node, check and test
       - uses: actions/setup-node@v1
         with:
           node-version: 15
       - run: npm ci
       - run: npm test
-
-      - name: Bump version
       - uses: TriPSs/conventional-changelog-action@v3
         with:
           github-token: ${{secrets.GTOKTION}}
           git-message: 'chore(release): {version}'
           output-file: 'CHANGELOG.md'
-
-      - name: Commit files
       - uses: stefanzweifel/git-auto-commit-action@v4
         with:
           commit_message: 'auto bwep'
