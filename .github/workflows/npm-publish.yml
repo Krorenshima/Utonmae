@@ -30,11 +30,23 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: 15
+      - name: Bump version
       - uses: TriPSs/conventional-changelog-action@v3
         with:
           github-token: ${{secrets.GTOKTION}}
           git-message: 'chore(release): {version}'
           output-file: 'CHANGELOG.md'
+      - name: Commit files
+        run: |
+          git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git commit -m "Add version and changelog." -a
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{secrets.GTOKTION}}
+          branch: master
+
 
   publish-npm:
     needs: bump
