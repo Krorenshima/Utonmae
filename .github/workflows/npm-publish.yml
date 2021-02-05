@@ -19,6 +19,7 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: 15
+          registry-url: https://registry.npmjs.org/
       - run: npm ci
       - run: npm test
       - run: |
@@ -27,17 +28,6 @@ jobs:
           node bump-v.js
           git commit -m 'auto bwep' -a
           git push https://github.com/Krorenshima/Utonmae.git
-
-  publish-npm:
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
-        with:
-          node-version: 15
-          registry-url: https://registry.npmjs.org/
-      - run: npm ci
-      - run: npm publish
-        env:
-          NODE_AUTH_TOKEN: ${{secrets.npm_token}}
+          npm publish
+      env:
+        NODE_AUTH_TOKEN: ${{secrets.npm_token}}
