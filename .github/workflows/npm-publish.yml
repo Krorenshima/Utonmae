@@ -29,5 +29,5 @@ jobs:
           git commit -m 'auto bwep' -a
           git push https://github.com/Krorenshima/Utonmae.git
           npm publish
-      env:
-        NODE_AUTH_TOKEN: ${{secrets.npm_token}}
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.npm_token}}
