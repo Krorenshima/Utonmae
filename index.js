@@ -46,7 +46,6 @@
       hps.zypes[ty] = vow;
     }
     vow = hps.zypes[ty];
-    console.log(hps.zypes, ty, vow);
     if (fs != null) {
       hps._savedData = JSON.stringify(hps.zypes);
       if (hps._oSavedData !== hps._savedData) {
