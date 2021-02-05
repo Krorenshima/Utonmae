@@ -24,6 +24,8 @@
       case process.platform === 'win32':
         return process.env['USERPROFILE'];
       break;
+      default:
+        return '.'
     }
   }
   hps.zypes = {}
