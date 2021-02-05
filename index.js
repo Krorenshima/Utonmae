@@ -19,24 +19,33 @@
   hps.ncheck((yin) => {
     if (yin) {fs = require('fs'); return}
   });
-  // hps.zypes = null
+  hps.zypes = {}
   if (fs != null) {
-    // TODO: make the types library able to be accessed from a top directory as to not make multiple instances.
-    let zypes; zypes = './zypes.json';
-    if (!fs.existsSync(zypes)) {fs.writeFileSync(zypes, '{}', 'utf8')}
-    hps.zypes = JSON.parse(fs.readFileSync(zypes));
-  } else {
-    hps.zypes = {};
+    let zypes; zypes = `${hps.pather()}/.hps-types.json`;
+    if (fs.existsSync(zypes)) {
+      fs.writeFile(zypes, '{}', 'utf8', (er) => {
+        if (er) {throw er}
+      })
+    }
+  }
+  hps.pather = function () {
+    switch (!0) {
+      case this.process.platform === 'win32':
+        return this['process'].env['USERPROFILE'];
+      break;
+    }
   }
   hps.type = function (it, is) {
     let ty, vow;
-    ty = Object.prototype.toString.call(it).toLowerCase();
+    ty = Object.prototype.toString.call(it);
     if (hps.zypes[ty] == null) {
       vow = ty.replace(/[\[\]]/g, '').split(' ').pop().toLowerCase();
-      hps.zypes[ty] = vow;
+      hps.zypes[ty.toLowerCase()] = vow;
     }
     vow = hps.zypes[ty];
-    if (fs != null) {fs.writeFile('./zypes.json', JSON.stringify(hps.zypes), 'utf8', (er) => {if (er) {throw er}})}
+    if (fs != null) {
+      fs.writeFile((hps.pather()), JSON.stringify(hps.zypes), 'utf8', (er) => {if (er) {throw er}});
+    }
     return is != null ? (vow === is) : vow;
   }
   hps.requirs = new Map([
