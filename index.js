@@ -21,7 +21,7 @@
   });
   hps.pather = function () {
     switch (!0) {
-      case this.process.platform === 'win32':
+      case process.platform === 'win32':
         return this['process'].env['USERPROFILE'];
       break;
     }
@@ -29,10 +29,12 @@
   hps.zypes = {}
   if (fs != null) {
     let zypes; zypes = `${hps.pather()}/.hps-types.json`;
-    if (fs.existsSync(zypes)) {
+    if (!fs.existsSync(zypes)) {
       fs.writeFile(zypes, '{}', 'utf8', (er) => {
         if (er) {throw er}
       })
+    } else {
+      hps.zypes = fs.readFileSync(zypes, 'utf8').toString()
     }
   }
   hps.type = function (it, is) {
@@ -44,7 +46,7 @@
     }
     vow = hps.zypes[ty];
     if (fs != null) {
-      fs.writeFile((hps.pather()), JSON.stringify(hps.zypes), 'utf8', (er) => {if (er) {throw er}});
+      fs.writeFile((hps.pather()+'/.hps-types.json'), JSON.stringify(hps.zypes), 'utf8', (er) => {if (er) {throw er}});
     }
     return is != null ? (vow === is) : vow;
   }
