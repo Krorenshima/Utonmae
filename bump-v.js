@@ -2,14 +2,10 @@
   let fs, fetch, pkg, vers;
   fs = require('fs');
   fetch = require('node-fetch');
-  pkg = require('./package.json');
   fetch('https://cdn.jsdelivr.net/npm/utonmae@latest/package.json')
   .then(resp => resp.json())
   .then(info => {
-    if (info.version === pkg.version) {
-      return
-    }
-    vers = pkg.version.split('.').map(n => +n);
+    vers = info.version.split('.').map(n => +n);
     vers[vers.length - 1]++;
     if (vers[vers.length - 1] > 9) {
       vers[vers.length - 1] = 0;

@@ -21,11 +21,12 @@ jobs:
           node-version: 15
       - run: npm ci
       - run: npm test
-      - run: git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
-      - run: git config --local user.name "github-actions[bot]"
-      - run: node bump-v.js
-      - run: git commit -m 'auto bwep' -a
-      - run: git push https://github.com/Krorenshima/Utonmae.git
+      - run: |
+        git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
+        git config --local user.name "github-actions[bot]"
+        node bump-v.js
+        git commit -m 'auto bwep' -a
+        git push https://github.com/Krorenshima/Utonmae.git
 
   publish-npm:
     needs: build
