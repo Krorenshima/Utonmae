@@ -22,7 +22,7 @@
   hps.pather = function () {
     switch (!0) {
       case process.platform === 'win32':
-        return this['process'].env['USERPROFILE'];
+        return process.env['USERPROFILE'];
       break;
     }
   }
@@ -34,19 +34,24 @@
         if (er) {throw er}
       })
     } else {
-      hps.zypes = fs.readFileSync(zypes, 'utf8').toString()
+      hps.zypes = JSON.parse(fs.readFileSync(zypes, 'utf8').toString())
     }
   }
+  hps._oSavedData = JSON.stringify(hps.zypes);
   hps.type = function (it, is) {
     let ty, vow;
     ty = Object.prototype.toString.call(it);
     if (hps.zypes[ty] == null) {
       vow = ty.replace(/[\[\]]/g, '').split(' ').pop().toLowerCase();
-      hps.zypes[ty.toLowerCase()] = vow;
+      hps.zypes[ty] = vow;
     }
     vow = hps.zypes[ty];
+    console.log(hps.zypes, ty, vow);
     if (fs != null) {
-      fs.writeFile((hps.pather()+'/.hps-types.json'), JSON.stringify(hps.zypes), 'utf8', (er) => {if (er) {throw er}});
+      hps._savedData = JSON.stringify(hps.zypes);
+      if (hps._oSavedData !== hps._savedData) {
+        fs.writeFileSync((hps.pather()+'/.hps-types.json'), JSON.stringify(hps.zypes), 'utf8', (er) => {if (er) {throw er}});
+      }
     }
     return is != null ? (vow === is) : vow;
   }
