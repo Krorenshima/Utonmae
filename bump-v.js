@@ -2,6 +2,7 @@
   let fs, fetch, pkg, vers;
   fs = require('fs');
   fetch = require('node-fetch');
+  pkg = require('./package.json');
   fetch('https://cdn.jsdelivr.net/npm/utonmae@latest/package.json')
   .then(resp => resp.json())
   .then(info => {
