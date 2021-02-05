@@ -19,6 +19,13 @@
   hps.ncheck((yin) => {
     if (yin) {fs = require('fs'); return}
   });
+  hps.pather = function () {
+    switch (!0) {
+      case this.process.platform === 'win32':
+        return this['process'].env['USERPROFILE'];
+      break;
+    }
+  }
   hps.zypes = {}
   if (fs != null) {
     let zypes; zypes = `${hps.pather()}/.hps-types.json`;
@@ -26,13 +33,6 @@
       fs.writeFile(zypes, '{}', 'utf8', (er) => {
         if (er) {throw er}
       })
-    }
-  }
-  hps.pather = function () {
-    switch (!0) {
-      case this.process.platform === 'win32':
-        return this['process'].env['USERPROFILE'];
-      break;
     }
   }
   hps.type = function (it, is) {
