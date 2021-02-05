@@ -20,5 +20,8 @@
     "url": "https://github.com/Krorenshima/Utonmae/issues"
   },
   "homepage": "https://github.com/Krorenshima/Utonmae#readme",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "node-fetch": "latest"
+  }
 }
