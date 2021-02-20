@@ -36,7 +36,11 @@
         if (er) {throw er}
       })
     } else {
-      hps.zypes = JSON.parse(fs.readFileSync(zypes, 'utf8').toString())
+      fs.readFile(zypes, 'utf8', (er, dt) => {
+        if (er) {throw er}
+        dt = dt.toString();
+        hps.zypes = JSON.parse(dt);
+      });
     }
   }
   hps._oSavedData = JSON.stringify(hps.zypes);
