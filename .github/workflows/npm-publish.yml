@@ -12,21 +12,32 @@ on:
       - 'CHANGELOG.md'
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
+  testnbump:
+    name: Test on node ${{matrix.node_version}} and on ${{matrix.os}} then bump the version number
+    runs-on: ${{matrix.os}}
+    strategy:
+      matrix:
+        node_version: [18.x]
+        os: [ubuntu-latest, windows-latest, macOS-latest]
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v1
+      - name: Use latest Node.js version ${{matrix.node_version}}
         with:
-          node-version: 15
-          registry-url: https://registry.npmjs.org/
-      - run: npm ci
-      - run: npm test
-      - run: |
+          node-version: ${{matrix.node_version}}
+    
+      - name: npm install and test
+        run: |
+          npm install
+          npm ci
+          npm run test --if-present
+      
+      - name: bump version then publish
+        run: |
           git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
           node bump-v.js
-          git commit -m 'auto bwep' -a
+          git commit -m 'auto bump' -a
           git push https://github.com/Krorenshima/Utonmae.git
           npm publish
         env:
