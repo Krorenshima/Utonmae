@@ -20,9 +20,9 @@ jobs:
         node_version: [18.x]
         os: [ubuntu-latest, windows-latest, macOS-latest]
     steps:
+      - name: Use latest Node.js version ${{matrix.node_version}}
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v1
-      - name: Use latest Node.js version ${{matrix.node_version}}
         with:
           node-version: ${{matrix.node_version}}
     
